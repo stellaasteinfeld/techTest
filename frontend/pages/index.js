@@ -1,58 +1,47 @@
 import React, { useState, useEffect } from "react";
-import qs from "qs";
 import Card from "components/card";
-import { fetchAPI, getStrapiURL } from "../lib/api";
+import {Grid, Container} from '@mui/material';
+import { getStrapiURL } from "../lib/api";
 
 
 export default function Home() {
   const [articles, setArticles] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function initArticles() {
-    const queryString = qs.stringify({});
     const requestUrl = `${getStrapiURL(
-      `/api/articles${queryString ? `?${queryString}` : ""}`
+      `/api/articles?populate=*`
     )}`;
     await fetch(requestUrl)
         .then(response => response.json())
         .then(response => {
             setArticles(response.data);
-            console.log(response.data);
+            if(response.data) {
+              setLoading(false);
+            }
         })
         .catch(err => console.error(err));
   }
   useEffect(() => {
     initArticles();
-    if(articles) {
-      setLoading(true);
-    }
   }, []);
   return (
     <div>
-      {loading}
-      {!loading ?? articles.map((article) => {
-            return (
+      <Container fixed>
+        <h1>Tech Challenge</h1>
+        <h4>Stella Steinfeld 2023</h4>
+        <Grid container spacing={3}>
+        {!loading ? articles.map((article) => {
+          return (
+            <Grid item xs={2} sm={4} md={4} key={article.id}>
               <Card
-                article={article}
-                key={`article_${article.attributes.slug}`}
-              />
-            );
-          })}
-          caca
+              article={article}
+              key={`article_${article.attributes.slug}`}
+            />
+          </Grid>
+          );}) : 'Loading'}
+          </Grid>
+        </Container>
     </div>
   );
-}
-
-export async function getStaticProps() {
-  // Run API calls in parallel
-  const [articles] = await Promise.all([
-    fetchAPI("/articles"),
-  ]);
-
-  console.log('stella', articles.data);
-
-  return {
-    props: { articles },
-    revalidate: 1,
-  };
 }

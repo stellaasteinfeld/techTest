@@ -4,11 +4,12 @@ import "../assets/css/style.css";
 import { createContext } from "react";
 import { fetchAPI } from "../lib/api";
 import { getStrapiMedia } from "../lib/media";
+import Home from "./index"
 
 // Store Strapi Global object in context
 export const GlobalContext = createContext({});
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({ pageProps }) => {
   const { global } = pageProps;
 
   return (
@@ -19,9 +20,7 @@ const MyApp = ({ Component, pageProps }) => {
           href={getStrapiMedia(global.attributes.favicon)}
         />
       </Head>
-      <GlobalContext.Provider value={global.attributes}>
-        <Component {...pageProps} />
-      </GlobalContext.Provider>
+      <Home />
     </>
   );
 };

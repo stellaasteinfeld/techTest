@@ -10,7 +10,7 @@ module.exports = ({ env }) => ({
   middleware: {
     session: {
       enabled: true,
-      keys: ['ozJlxXLvoZwrmNGBuTSnfQ', 'BcmLVhql8ckKz2L7BPIZsw', 'rsdnfdVukP2MYvB4kg+Qdw', 'IA8W9LatyqbMHH/i9NPPMA'],
+      keys: env.array('APP_KEYS'),
     },
   },
 });

@@ -4,11 +4,11 @@ module.exports = ({ env }) => ({
   connection: {
     client: "postgres",
     connection: {
-      host: env("DATABASE_HOST", "172.31.27.95"),
+      host: env("DATABASE_HOST", "127.0.0.1"),
       port: env.int("DATABASE_PORT", 5432),
       database: env("DATABASE_NAME", "strapi-database"),
       user: env("DATABASE_USERNAME", ""),
-      password: env("DATABASE_PASSWORD", "strapi-database2023"),
+      password: env("DATABASE_PASSWORD", ""),
     },
     useNullAsDefault: true,
   },
